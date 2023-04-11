@@ -8,25 +8,26 @@ import 'package:get/get.dart';
 import '../../../common/ui.dart';
 
 class TextFieldWidget extends StatelessWidget {
-  const TextFieldWidget({
-    Key key,
-    this.onSaved,
-    this.onChanged,
-    this.validator,
-    this.keyboardType,
-    this.initialValue,
-    this.hintText,
-    this.errorText,
-    this.iconData,
-    this.labelText,
-    this.obscureText,
-    this.suffixIcon,
-    this.isFirst,
-    this.isLast,
-    this.style,
-    this.textAlign,
-    this.suffix,
-  }) : super(key: key);
+  const TextFieldWidget(
+      {Key key,
+      this.onSaved,
+      this.onChanged,
+      this.validator,
+      this.keyboardType,
+      this.initialValue,
+      this.hintText,
+      this.errorText,
+      this.iconData,
+      this.labelText,
+      this.obscureText,
+      this.suffixIcon,
+      this.isFirst,
+      this.isLast,
+      this.style,
+      this.textAlign,
+      this.suffix,
+      this.readOnly = false})
+      : super(key: key);
 
   final FormFieldSetter<String> onSaved;
   final ValueChanged<String> onChanged;
@@ -44,17 +45,22 @@ class TextFieldWidget extends StatelessWidget {
   final bool isLast;
   final Widget suffixIcon;
   final Widget suffix;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 20, bottom: 14, left: 20, right: 20),
-      margin: EdgeInsets.only(left: 20, right: 20, top: topMargin, bottom: bottomMargin),
+      margin: EdgeInsets.only(
+          left: 20, right: 20, top: topMargin, bottom: bottomMargin),
       decoration: BoxDecoration(
           color: Get.theme.primaryColor,
           borderRadius: buildBorderRadius,
           boxShadow: [
-            BoxShadow(color: Get.theme.focusColor.withOpacity(0.1), blurRadius: 10, offset: Offset(0, 5)),
+            BoxShadow(
+                color: Get.theme.focusColor.withOpacity(0.1),
+                blurRadius: 10,
+                offset: Offset(0, 5)),
           ],
           border: Border.all(color: Get.theme.focusColor.withOpacity(0.05))),
       child: Column(
@@ -66,6 +72,7 @@ class TextFieldWidget extends StatelessWidget {
             textAlign: textAlign ?? TextAlign.start,
           ),
           TextFormField(
+            readOnly: readOnly,
             maxLines: keyboardType == TextInputType.multiline ? null : 1,
             key: key,
             keyboardType: keyboardType ?? TextInputType.text,

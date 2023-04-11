@@ -453,12 +453,12 @@ class EServiceFormView extends GetView<EServiceFormController> {
                 ),
 
                 TextFieldWidget(
-                  onSaved: (input) => controller.eService.value.name = input,
-                  validator: (input) => input.length < 3
-                      ? "Should be more than 3 letters".tr
-                      : null,
-                  initialValue: controller.eService.value.name,
-                  hintText: "Post Party Cleaning".tr,
+                  // onSaved: (input) => controller.eService.value.name = input,
+                  // validator: (input) => input.length < 3
+                  //     ? "Should be more than 3 letters".tr
+                  //     : null,
+                  initialValue: "Product 1",
+                  hintText: "Name".tr,
                   labelText: "Name".tr,
                 ),
                 TextFieldWidget(
@@ -565,6 +565,31 @@ class EServiceFormView extends GetView<EServiceFormController> {
                     return SizedBox();
                   }
                 }),
+
+                TextFieldWidget(
+                  initialValue: "10%",
+                  hintText: "Customer Commission".tr,
+                  labelText: "Customer Commission".tr,
+                  readOnly: true,
+                ),
+                TextFieldWidget(
+                  initialValue: "10%",
+                  hintText: "Commission on Product".tr,
+                  labelText: "Commission on Product".tr,
+                  readOnly: true,
+                ),
+                TextFieldWidget(
+                  initialValue: "10%",
+                  hintText: "GST".tr,
+                  labelText: "GST".tr,
+                  readOnly: true,
+                ),
+                TextFieldWidget(
+                  initialValue: "10%",
+                  hintText: "Basic Price".tr,
+                  labelText: "Basic Price".tr,
+                  readOnly: true,
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -589,21 +614,9 @@ class EServiceFormView extends GetView<EServiceFormController> {
                     ),
                     Expanded(
                       child: TextFieldWidget(
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
-                        onSaved: (input) => controller.eService.value
-                            .discountPrice = double.tryParse(input),
-                        validator: (input) => (input != "") &&
-                                ((double.tryParse(input) ?? 0) <= 0)
-                            ? "Should be number more than 0".tr
-                            : null,
-                        initialValue:
-                            (controller.eService.value.discountPrice ?? 0) > 0
-                                ? controller.eService.value.discountPrice
-                                    ?.toString()
-                                : null,
-                        hintText: "21.00".tr,
-                        labelText: "Discount Price".tr,
+                        initialValue: "20%" ?? null,
+                        hintText: "Final Price".tr,
+                        labelText: "Final Price".tr,
                         suffix: Text(Get.find<SettingsService>()
                             .setting
                             .value

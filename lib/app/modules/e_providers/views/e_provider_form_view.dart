@@ -7,7 +7,6 @@ import '../../../models/e_provider_model.dart';
 import '../../../models/e_provider_type_model.dart';
 import '../../../models/e_service_model.dart';
 import '../../../models/media_model.dart';
-import '../../../models/tax_model.dart';
 import '../../../models/user_model.dart';
 import '../../../services/settings_service.dart';
 import '../../global_widgets/confirm_dialog.dart';
@@ -624,91 +623,91 @@ class EProviderFormView extends GetView<EProviderFormController> {
                     ],
                   ),
                 ),
-                Container(
-                  padding:
-                      EdgeInsets.only(top: 8, bottom: 10, left: 20, right: 20),
-                  margin:
-                      EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-                  decoration: BoxDecoration(
-                      color: Get.theme.primaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Get.theme.focusColor.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: Offset(0, 5)),
-                      ],
-                      border: Border.all(
-                          color: Get.theme.focusColor.withOpacity(0.05))),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Taxes".tr,
-                              style: Get.textTheme.bodyText1,
-                              textAlign: TextAlign.start,
-                            ),
-                          ),
-                          MaterialButton(
-                            onPressed: () async {
-                              final selectedValues = await showDialog<Set<Tax>>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return MultiSelectDialog(
-                                    title: "Select Taxes".tr,
-                                    submitText: "Submit".tr,
-                                    cancelText: "Cancel".tr,
-                                    items:
-                                        controller.getMultiSelectTaxesItems(),
-                                    initialSelectedValues: controller.taxes
-                                        .where(
-                                          (tax) =>
-                                              controller.eProvider.value.taxes
-                                                  ?.where((element) =>
-                                                      element.id == tax.id)
-                                                  ?.isNotEmpty ??
-                                              false,
-                                        )
-                                        .toSet(),
-                                  );
-                                },
-                              );
-                              controller.eProvider.update((val) {
-                                val.taxes = selectedValues?.toList();
-                              });
-                            },
-                            shape: StadiumBorder(),
-                            color: Get.theme.colorScheme.secondary
-                                .withOpacity(0.1),
-                            child: Text("Select".tr,
-                                style: Get.textTheme.subtitle1),
-                            elevation: 0,
-                            hoverElevation: 0,
-                            focusElevation: 0,
-                            highlightElevation: 0,
-                          ),
-                        ],
-                      ),
-                      Obx(() {
-                        if (controller.eProvider.value?.taxes?.isEmpty ??
-                            true) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: Text(
-                              "Select Taxes".tr,
-                              style: Get.textTheme.caption,
-                            ),
-                          );
-                        } else {
-                          return buildTaxes(controller.eProvider.value);
-                        }
-                      })
-                    ],
-                  ),
-                ),
+                // Container(
+                //   padding:
+                //       EdgeInsets.only(top: 8, bottom: 10, left: 20, right: 20),
+                //   margin:
+                //       EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+                //   decoration: BoxDecoration(
+                //       color: Get.theme.primaryColor,
+                //       borderRadius: BorderRadius.all(Radius.circular(10)),
+                //       boxShadow: [
+                //         BoxShadow(
+                //             color: Get.theme.focusColor.withOpacity(0.1),
+                //             blurRadius: 10,
+                //             offset: Offset(0, 5)),
+                //       ],
+                //       border: Border.all(
+                //           color: Get.theme.focusColor.withOpacity(0.05))),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.stretch,
+                //     children: [
+                //       Row(
+                //         children: [
+                //           Expanded(
+                //             child: Text(
+                //               "Taxes".tr,
+                //               style: Get.textTheme.bodyText1,
+                //               textAlign: TextAlign.start,
+                //             ),
+                //           ),
+                //           MaterialButton(
+                //             onPressed: () async {
+                //               final selectedValues = await showDialog<Set<Tax>>(
+                //                 context: context,
+                //                 builder: (BuildContext context) {
+                //                   return MultiSelectDialog(
+                //                     title: "Select Taxes".tr,
+                //                     submitText: "Submit".tr,
+                //                     cancelText: "Cancel".tr,
+                //                     items:
+                //                         controller.getMultiSelectTaxesItems(),
+                //                     initialSelectedValues: controller.taxes
+                //                         .where(
+                //                           (tax) =>
+                //                               controller.eProvider.value.taxes
+                //                                   ?.where((element) =>
+                //                                       element.id == tax.id)
+                //                                   ?.isNotEmpty ??
+                //                               false,
+                //                         )
+                //                         .toSet(),
+                //                   );
+                //                 },
+                //               );
+                //               controller.eProvider.update((val) {
+                //                 val.taxes = selectedValues?.toList();
+                //               });
+                //             },
+                //             shape: StadiumBorder(),
+                //             color: Get.theme.colorScheme.secondary
+                //                 .withOpacity(0.1),
+                //             child: Text("Select".tr,
+                //                 style: Get.textTheme.subtitle1),
+                //             elevation: 0,
+                //             hoverElevation: 0,
+                //             focusElevation: 0,
+                //             highlightElevation: 0,
+                //           ),
+                //         ],
+                //       ),
+                //       Obx(() {
+                //         if (controller.eProvider.value?.taxes?.isEmpty ??
+                //             true) {
+                //           return Padding(
+                //             padding: EdgeInsets.symmetric(vertical: 20),
+                //             child: Text(
+                //               "Select Taxes".tr,
+                //               style: Get.textTheme.caption,
+                //             ),
+                //           );
+                //         } else {
+                //           return buildTaxes(controller.eProvider.value);
+                //         }
+                //       })
+                //     ],
+                //   ),
+                // ),
 
                 // Bank details
                 //Account Holder Name
