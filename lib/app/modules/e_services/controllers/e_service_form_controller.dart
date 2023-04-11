@@ -15,8 +15,10 @@ import '../../global_widgets/select_dialog.dart';
 
 class EServiceFormController extends GetxController {
   final eService = EService().obs;
+  final eSubService = EService().obs;
   final optionGroups = <OptionGroup>[].obs;
   final categories = <Category>[].obs;
+  final subCategories = <Category>[].obs;
   final eProviders = <EProvider>[].obs;
   GlobalKey<FormState> eServiceForm = new GlobalKey<FormState>();
   EServiceRepository _eServiceRepository;
@@ -50,7 +52,9 @@ class EServiceFormController extends GetxController {
     await getEProviders();
     await getOptionGroups();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: eService.value.name + " " + "page refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message:
+              eService.value.name + " " + "page refreshed successfully".tr));
     }
   }
 
@@ -86,6 +90,12 @@ class EServiceFormController extends GetxController {
     }).toList();
   }
 
+  List<MultiSelectDialogItem<Category>> getSubMultiSelectCategoriesItems() {
+    return subCategories.map((element) {
+      return MultiSelectDialogItem(element, element.name);
+    }).toList();
+  }
+
   List<SelectDialogItem<EProvider>> getSelectProvidersItems() {
     return eProviders.map((element) {
       return SelectDialogItem(element, element.name);
@@ -95,7 +105,8 @@ class EServiceFormController extends GetxController {
   Future getOptionGroups() async {
     if (eService.value.hasData) {
       try {
-        var _optionGroups = await _eServiceRepository.getOptionGroups(eService.value.id);
+        var _optionGroups =
+            await _eServiceRepository.getOptionGroups(eService.value.id);
         optionGroups.assignAll(_optionGroups);
       } catch (e) {
         Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
@@ -117,14 +128,19 @@ class EServiceFormController extends GetxController {
         eServiceForm.currentState.save();
         var _eService = await _eServiceRepository.create(eService.value);
         if (createOptions)
-          Get.offAndToNamed(Routes.OPTIONS_FORM, arguments: {'eService': _eService});
+          Get.offAndToNamed(Routes.OPTIONS_FORM,
+              arguments: {'eService': _eService});
         else
-          Get.offAndToNamed(Routes.E_SERVICE, arguments: {'eService': _eService, 'heroTag': 'e_service_create_form'});
+          Get.offAndToNamed(Routes.E_SERVICE, arguments: {
+            'eService': _eService,
+            'heroTag': 'e_service_create_form'
+          });
       } catch (e) {
         Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
       } finally {}
     } else {
-      Get.showSnackbar(Ui.ErrorSnackBar(message: "There are errors in some fields please correct them!".tr));
+      Get.showSnackbar(Ui.ErrorSnackBar(
+          message: "There are errors in some fields please correct them!".tr));
     }
   }
 
@@ -134,12 +150,16 @@ class EServiceFormController extends GetxController {
       try {
         eServiceForm.currentState.save();
         var _eService = await _eServiceRepository.update(eService.value);
-        Get.offAndToNamed(Routes.E_SERVICE, arguments: {'eService': _eService, 'heroTag': 'e_service_update_form'});
+        Get.offAndToNamed(Routes.E_SERVICE, arguments: {
+          'eService': _eService,
+          'heroTag': 'e_service_update_form'
+        });
       } catch (e) {
         Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
       } finally {}
     } else {
-      Get.showSnackbar(Ui.ErrorSnackBar(message: "There are errors in some fields please correct them!".tr));
+      Get.showSnackbar(Ui.ErrorSnackBar(
+          message: "There are errors in some fields please correct them!".tr));
     }
   }
 
@@ -147,7 +167,8 @@ class EServiceFormController extends GetxController {
     try {
       await _eServiceRepository.delete(eService.value.id);
       Get.offAndToNamed(Routes.E_SERVICES);
-      Get.showSnackbar(Ui.SuccessSnackBar(message: eService.value.name + " " + "has been removed".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message: eService.value.name + " " + "has been removed".tr));
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }

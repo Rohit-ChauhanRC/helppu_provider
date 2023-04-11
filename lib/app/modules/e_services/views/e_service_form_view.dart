@@ -163,26 +163,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                     },
                   );
                 }),
-                TextFieldWidget(
-                  onSaved: (input) => controller.eService.value.name = input,
-                  validator: (input) => input.length < 3
-                      ? "Should be more than 3 letters".tr
-                      : null,
-                  initialValue: controller.eService.value.name,
-                  hintText: "Post Party Cleaning".tr,
-                  labelText: "Name".tr,
-                ),
-                TextFieldWidget(
-                  onSaved: (input) =>
-                      controller.eService.value.description = input,
-                  validator: (input) => input.length < 3
-                      ? "Should be more than 3 letters".tr
-                      : null,
-                  keyboardType: TextInputType.multiline,
-                  initialValue: controller.eService.value.description,
-                  hintText: "Description for Post Party Cleaning".tr,
-                  labelText: "Description".tr,
-                ),
+                // Category
                 Container(
                   padding:
                       EdgeInsets.only(top: 8, bottom: 10, left: 20, right: 20),
@@ -269,6 +250,227 @@ class EServiceFormView extends GetView<EServiceFormController> {
                       })
                     ],
                   ),
+                ),
+                Container(
+                  padding:
+                      EdgeInsets.only(top: 8, bottom: 10, left: 20, right: 20),
+                  margin:
+                      EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+                  decoration: BoxDecoration(
+                      color: Get.theme.primaryColor,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Get.theme.focusColor.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: Offset(0, 5)),
+                      ],
+                      border: Border.all(
+                          color: Get.theme.focusColor.withOpacity(0.05))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "SubCategories".tr,
+                              style: Get.textTheme.bodyText1,
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                          MaterialButton(
+                            onPressed: () async {
+                              final selectedValues =
+                                  await showDialog<Set<Category>>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return MultiSelectDialog(
+                                    title: "Select SubCategories".tr,
+                                    submitText: "Submit".tr,
+                                    cancelText: "Cancel".tr,
+                                    items: controller
+                                        .getSubMultiSelectCategoriesItems(),
+                                    initialSelectedValues: controller
+                                        .subCategories
+                                        .where(
+                                          (category) =>
+                                              controller
+                                                  .eSubService.value.categories
+                                                  ?.where((element) =>
+                                                      element.id == category.id)
+                                                  ?.isNotEmpty ??
+                                              false,
+                                        )
+                                        .toSet(),
+                                  );
+                                },
+                              );
+                              controller.eSubService.update((val) {
+                                val.categories = selectedValues?.toList();
+
+                                //var idsList = selectedValues
+                                //    ?.toList()
+                                //    ?.map((((e) => e.id)))
+                                //    ?.toList();
+                                //controller.eProvider.value.subCategories =
+                                //    idsList;
+                                //debugPrint("idsList : ${idsList}");
+                                //controller?.getSubCategories(idsList);
+                              });
+                            },
+                            shape: StadiumBorder(),
+                            color: Get.theme.colorScheme.secondary
+                                .withOpacity(0.1),
+                            child: Text("Select".tr,
+                                style: Get.textTheme.subtitle1),
+                            elevation: 0,
+                            hoverElevation: 0,
+                            focusElevation: 0,
+                            highlightElevation: 0,
+                          ),
+                        ],
+                      ),
+                      Obx(() {
+                        if (controller.eService.value?.categories?.isEmpty ??
+                            true) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Text(
+                              "Select Subcategories".tr,
+                              style: Get.textTheme.caption,
+                            ),
+                          );
+                        } else {
+                          return buildCategories(controller.eSubService.value);
+                        }
+                      })
+                    ],
+                  ),
+                ),
+
+                // product
+                Container(
+                  padding:
+                      EdgeInsets.only(top: 8, bottom: 10, left: 20, right: 20),
+                  margin:
+                      EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+                  decoration: BoxDecoration(
+                      color: Get.theme.primaryColor,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Get.theme.focusColor.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: Offset(0, 5)),
+                      ],
+                      border: Border.all(
+                          color: Get.theme.focusColor.withOpacity(0.05))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Product".tr,
+                              style: Get.textTheme.bodyText1,
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                          MaterialButton(
+                            onPressed: () async {
+                              final selectedValues =
+                                  await showDialog<Set<Category>>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SelectDialog(
+                                    title: "Select Products".tr,
+                                    submitText: "Submit".tr,
+                                    cancelText: "Cancel".tr,
+                                    //items: controller
+                                    //    .getSubMultiSelectCategoriesItems(),
+                                    //initialSelectedValues: controller
+                                    //    .subCategories
+                                    //    .where(
+                                    //      (category) =>
+                                    //          controller
+                                    //              .eSubService.value.categories
+                                    //              ?.where((element) =>
+                                    //                  element.id == category.id)
+                                    //              ?.isNotEmpty ??
+                                    //          false,
+                                    //)
+                                    //.toSet(),
+                                    items: [
+                                      SelectDialogItem(0, "Product1 "),
+                                      SelectDialogItem(1, "Product2 ")
+                                    ],
+                                  );
+                                },
+                              );
+                              //controller.eSubService.update((val) {
+                              //  val.categories = selectedValues?.toList();
+
+                              //  //var idsList = selectedValues
+                              //  //    ?.toList()
+                              //  //    ?.map((((e) => e.id)))
+                              //  //    ?.toList();
+                              //  //controller.eProvider.value.subCategories =
+                              //  //    idsList;
+                              //  //debugPrint("idsList : ${idsList}");
+                              //  //controller?.getSubCategories(idsList);
+                              //});
+                            },
+                            shape: StadiumBorder(),
+                            color: Get.theme.colorScheme.secondary
+                                .withOpacity(0.1),
+                            child: Text("Select".tr,
+                                style: Get.textTheme.subtitle1),
+                            elevation: 0,
+                            hoverElevation: 0,
+                            focusElevation: 0,
+                            highlightElevation: 0,
+                          ),
+                        ],
+                      ),
+                      Obx(() {
+                        if (controller.eService.value?.categories?.isEmpty ??
+                            true) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Text(
+                              "Select Products".tr,
+                              style: Get.textTheme.caption,
+                            ),
+                          );
+                        } else {
+                          return buildCategories(controller.eSubService.value);
+                        }
+                      })
+                    ],
+                  ),
+                ),
+
+                TextFieldWidget(
+                  onSaved: (input) => controller.eService.value.name = input,
+                  validator: (input) => input.length < 3
+                      ? "Should be more than 3 letters".tr
+                      : null,
+                  initialValue: controller.eService.value.name,
+                  hintText: "Post Party Cleaning".tr,
+                  labelText: "Name".tr,
+                ),
+                TextFieldWidget(
+                  onSaved: (input) =>
+                      controller.eService.value.description = input,
+                  validator: (input) => input.length < 3
+                      ? "Should be more than 3 letters".tr
+                      : null,
+                  keyboardType: TextInputType.multiline,
+                  initialValue: controller.eService.value.description,
+                  hintText: "Description for Post Party Cleaning".tr,
+                  labelText: "Description".tr,
                 ),
                 Obx(() {
                   if (controller.eProviders.length > 1)
@@ -378,7 +580,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                         initialValue:
                             controller.eService.value.price?.toString(),
                         hintText: "23.00".tr,
-                        labelText: "Price".tr,
+                        labelText: "MRP".tr,
                         suffix: Text(Get.find<SettingsService>()
                             .setting
                             .value

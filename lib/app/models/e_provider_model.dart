@@ -109,13 +109,13 @@ class EProvider extends Model {
     bookingsInProgress = intFromJson(json, 'bookings_in_progress');
     if (json['categories'] is List<String>) {
       categories = json['categories'];
-    } else {
+    } else if (json['categories'] is String) {
       categories = json['categories'].split(',');
     }
     ;
     if (json['sub_categories_id'] is List<String>) {
       subCategories = json['categories'];
-    } else {
+    } else if (json['sub_categories_id'] is String) {
       subCategories = json['sub_categories_id'].split(',');
     }
     ;
