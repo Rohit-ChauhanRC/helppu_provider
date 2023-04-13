@@ -120,7 +120,8 @@ class LaravelApiClient extends GetxService with ApiClient {
   }
 
   Future<User> register(User user) async {
-    Uri _uri = getApiBaseUri("provider/register");
+    Uri _uri = getApiBaseUri("signup");
+    //Uri _uri = getApiBaseUri("provider/register");
 
     var response = await _httpClient.postUri(
       _uri,
@@ -1082,6 +1083,23 @@ class LaravelApiClient extends GetxService with ApiClient {
     }
   }
 
+  Future<List<Category>> getAllServiceCategories() async {
+    var _queryParameters = {
+      'api_token': authService.apiToken,
+    };
+    Uri _uri = getApiBaseUri("provider/get_user_selected_categories")
+        .replace(queryParameters: _queryParameters);
+
+    var response = await _httpClient.getUri(_uri, options: _optionsCache);
+    if (response.data['success'] == true) {
+      return response.data['data']
+          .map<Category>((obj) => Category.fromJson(obj))
+          .toList();
+    } else {
+      throw new Exception(response.data['message']);
+    }
+  }
+
   Future<List<Category>> getAllParentCategories() async {
     const _queryParameters = {
       'parent': 'true',
@@ -1101,6 +1119,7 @@ class LaravelApiClient extends GetxService with ApiClient {
     }
   }
 
+  /// get_category_by_product --> category[], subcategory[]
   Future<List<Category>> getAllWithSubCategories() async {
     const _queryParameters = {
       'with': 'subCategories',
@@ -1110,6 +1129,23 @@ class LaravelApiClient extends GetxService with ApiClient {
     };
     Uri _uri =
         getApiBaseUri("categories").replace(queryParameters: _queryParameters);
+
+    var response = await _httpClient.getUri(_uri, options: _optionsCache);
+    if (response.data['success'] == true) {
+      return response.data['data']
+          .map<Category>((obj) => Category.fromJson(obj))
+          .toList();
+    } else {
+      throw new Exception(response.data['message']);
+    }
+  }
+
+  Future<List<Category>> getUserSelectedSubCategories(id) async {
+    var _queryParameters = {
+      'category_id': id,
+    };
+    Uri _uri = getApiBaseUri("provider/get_user_selected_subcategories")
+        .replace(queryParameters: _queryParameters);
 
     var response = await _httpClient.getUri(_uri, options: _optionsCache);
     if (response.data['success'] == true) {

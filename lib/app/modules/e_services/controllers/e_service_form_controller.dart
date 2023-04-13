@@ -70,7 +70,16 @@ class EServiceFormController extends GetxController {
 
   Future getCategories() async {
     try {
-      categories.assignAll(await _categoryRepository.getAll());
+      categories.assignAll(await _categoryRepository.getCatServiceAll());
+    } catch (e) {
+      Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
+    }
+  }
+
+  Future getSubCategories(id) async {
+    try {
+      subCategories.assignAll(
+          await _categoryRepository.getUserSelectedSubCategories(id));
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }
@@ -82,6 +91,12 @@ class EServiceFormController extends GetxController {
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }
+  }
+
+  List<SelectDialogItem<Category>> getSelectCategoriesItems() {
+    return categories.map((element) {
+      return SelectDialogItem(element, element.name);
+    }).toList();
   }
 
   List<MultiSelectDialogItem<Category>> getMultiSelectCategoriesItems() {

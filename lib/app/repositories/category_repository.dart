@@ -14,12 +14,20 @@ class CategoryRepository {
     return _laravelApiClient.getAllCategories();
   }
 
+  Future<List<Category>> getCatServiceAll() {
+    return _laravelApiClient.getAllServiceCategories();
+  }
+
   Future<List<Category>> getAllParents() {
     return _laravelApiClient.getAllParentCategories();
   }
 
   Future<List<Category>> getAllWithSubCategories() {
     return _laravelApiClient.getAllWithSubCategories();
+  }
+
+  Future<List<Category>> getUserSelectedSubCategories(id) {
+    return _laravelApiClient.getUserSelectedSubCategories(id);
   }
 
   Future<List<Category>> getAllSubCategories(params) {

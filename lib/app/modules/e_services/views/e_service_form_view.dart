@@ -164,6 +164,96 @@ class EServiceFormView extends GetView<EServiceFormController> {
                   );
                 }),
                 // Category
+                Obx(() {
+                  if (controller.categories.isEmpty)
+                    return SizedBox();
+                  else
+                    return Container(
+                      padding: EdgeInsets.only(
+                          top: 8, bottom: 10, left: 20, right: 20),
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, top: 20, bottom: 20),
+                      decoration: BoxDecoration(
+                          color: Get.theme.primaryColor,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Get.theme.focusColor.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: Offset(0, 5)),
+                          ],
+                          border: Border.all(
+                              color: Get.theme.focusColor.withOpacity(0.05))),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Select Categories".tr,
+                                  style: Get.textTheme.bodyText1,
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              MaterialButton(
+                                onPressed: () async {
+                                  final selectedValue =
+                                      await showDialog<Set<Category>>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return SelectDialog(
+                                        title: "Select Provider Type".tr,
+                                        submitText: "Submit".tr,
+                                        cancelText: "Cancel".tr,
+                                        items: controller
+                                            .getSelectCategoriesItems(),
+                                        initialSelectedValue:
+                                            controller.categories.firstWhere(
+                                          (element) =>
+                                              element.id ==
+                                              controller
+                                                  .eService.value.categories,
+                                          orElse: () => new Category(),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                  controller.eService.update((val) {
+                                    val.categories = selectedValue?.toList();
+                                    controller.getSubCategories(selectedValue);
+                                  });
+                                },
+                                shape: StadiumBorder(),
+                                color: Get.theme.colorScheme.secondary
+                                    .withOpacity(0.1),
+                                child: Text("Select".tr,
+                                    style: Get.textTheme.subtitle1),
+                                elevation: 0,
+                                hoverElevation: 0,
+                                focusElevation: 0,
+                                highlightElevation: 0,
+                              ),
+                            ],
+                          ),
+                          Obx(() {
+                            if (controller.eService.value?.categories == null) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                child: Text(
+                                  "Select providers".tr,
+                                  style: Get.textTheme.caption,
+                                ),
+                              );
+                            } else {
+                              return buildCategories(controller.eService.value);
+                            }
+                          })
+                        ],
+                      ),
+                    );
+                }),
+
                 Container(
                   padding:
                       EdgeInsets.only(top: 8, bottom: 10, left: 20, right: 20),
@@ -220,6 +310,8 @@ class EServiceFormView extends GetView<EServiceFormController> {
                               );
                               controller.eService.update((val) {
                                 val.categories = selectedValues?.toList();
+                                controller.getSubCategories(selectedValues);
+                                //controller.eProvider.value.categories = idsList;
                               });
                             },
                             shape: StadiumBorder(),

@@ -138,13 +138,6 @@ class EProviderFormView extends GetView<EProviderFormController> {
                     ),
                     StepWidget(
                       title: Text(
-                        "Bank Details".tr,
-                      ),
-                      index: Text("2",
-                          style: TextStyle(color: Get.theme.primaryColor)),
-                    ),
-                    StepWidget(
-                      title: Text(
                         "Availability".tr,
                       ),
                       color: Get.theme.focusColor,
