@@ -622,13 +622,10 @@ class EServiceFormView extends GetView<EServiceFormController> {
                 }),
 
                 TextFieldWidget(
-                  // onSaved: (input) => controller.eService.value.name = input,
-                  // validator: (input) => input.length < 3
-                  //     ? "Should be more than 3 letters".tr
-                  //     : null,
                   initialValue: "Product 1",
                   hintText: "Name".tr,
                   labelText: "Name".tr,
+                  readOnly: true,
                 ),
                 TextFieldWidget(
                   onSaved: (input) =>
@@ -754,10 +751,13 @@ class EServiceFormView extends GetView<EServiceFormController> {
                   readOnly: true,
                 ),
                 TextFieldWidget(
+                  // onSaved: (input) =>
+                  //     controller.eService.value.description = input,
+                  // initialValue: controller.eService.value.description,
                   initialValue: "10%",
                   hintText: "Basic Price".tr,
                   labelText: "Basic Price".tr,
-                  readOnly: true,
+                  // readOnly: true,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

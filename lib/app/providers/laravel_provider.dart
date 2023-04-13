@@ -1144,7 +1144,7 @@ class LaravelApiClient extends GetxService with ApiClient {
     var _queryParameters = {
       'category_id': id,
     };
-    Uri _uri = getApiBaseUri("provider/get_user_selected_subcategories")
+    Uri _uri = getApiBaseUri("provider/get_user_selected_sucategories")
         .replace(queryParameters: _queryParameters);
 
     var response = await _httpClient.getUri(_uri, options: _optionsCache);
@@ -1163,7 +1163,7 @@ class LaravelApiClient extends GetxService with ApiClient {
       'category_id': category_id,
       'subcategory_id': subcategory_id,
     };
-    Uri _uri = getApiBaseUri("provider/get_user_selected_subcategories")
+    Uri _uri = getApiBaseUri("provider/get_category_by_product")
         .replace(queryParameters: _queryParameters);
 
     var response = await _httpClient.getUri(_uri, options: _optionsCache);
