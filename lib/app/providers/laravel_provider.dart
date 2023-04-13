@@ -1157,6 +1157,25 @@ class LaravelApiClient extends GetxService with ApiClient {
     }
   }
 
+  Future<List<Category>> getUserSelectedProducts(
+      category_id, subcategory_id) async {
+    var _queryParameters = {
+      'category_id': category_id,
+      'subcategory_id': subcategory_id,
+    };
+    Uri _uri = getApiBaseUri("provider/get_user_selected_subcategories")
+        .replace(queryParameters: _queryParameters);
+
+    var response = await _httpClient.getUri(_uri, options: _optionsCache);
+    if (response.data['success'] == true) {
+      return response.data['data']
+          .map<Category>((obj) => Category.fromJson(obj))
+          .toList();
+    } else {
+      throw new Exception(response.data['message']);
+    }
+  }
+
   Future<List<Category>> getAllSubCategories(params) async {
     var _queryParameters = {
       'category_id[]': params,

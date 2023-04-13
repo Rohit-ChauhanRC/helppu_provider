@@ -30,6 +30,11 @@ class CategoryRepository {
     return _laravelApiClient.getUserSelectedSubCategories(id);
   }
 
+  Future<List<Category>> getUserSelecteProducts(category_id, subcategory_id) {
+    return _laravelApiClient.getUserSelectedProducts(
+        category_id, subcategory_id);
+  }
+
   Future<List<Category>> getAllSubCategories(params) {
     return _laravelApiClient.getAllSubCategories(params);
   }

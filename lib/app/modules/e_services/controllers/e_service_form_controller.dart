@@ -19,7 +19,12 @@ class EServiceFormController extends GetxController {
   final optionGroups = <OptionGroup>[].obs;
   final categories = <Category>[].obs;
   final subCategories = <Category>[].obs;
+  final products = <Category>[].obs;
   final eProviders = <EProvider>[].obs;
+  final eCategory = Category().obs;
+  final eSubCategory = Category().obs;
+  final eProduct = Category().obs;
+
   GlobalKey<FormState> eServiceForm = new GlobalKey<FormState>();
   EServiceRepository _eServiceRepository;
   CategoryRepository _categoryRepository;
@@ -85,6 +90,15 @@ class EServiceFormController extends GetxController {
     }
   }
 
+  Future getproduct(category_id, subcategory_id) async {
+    try {
+      products.assignAll(await _categoryRepository.getUserSelecteProducts(
+          category_id, subcategory_id));
+    } catch (e) {
+      Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
+    }
+  }
+
   Future getEProviders() async {
     try {
       eProviders.assignAll(await _eProviderRepository.getAll());
@@ -95,6 +109,18 @@ class EServiceFormController extends GetxController {
 
   List<SelectDialogItem<Category>> getSelectCategoriesItems() {
     return categories.map((element) {
+      return SelectDialogItem(element, element.name);
+    }).toList();
+  }
+
+  List<SelectDialogItem<Category>> getSelectSubCategoriesItems() {
+    return subCategories.map((element) {
+      return SelectDialogItem(element, element.name);
+    }).toList();
+  }
+
+  List<SelectDialogItem<Category>> getSelectProduct() {
+    return products.map((element) {
       return SelectDialogItem(element, element.name);
     }).toList();
   }
