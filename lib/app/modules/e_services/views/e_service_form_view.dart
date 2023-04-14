@@ -401,15 +401,15 @@ class EServiceFormView extends GetView<EServiceFormController> {
                                       );
                                     },
                                   );
-                                  // controller.eProduct.value = selectedValue;
-                                  // controller
-                                  //     .getProductDetails(selectedValue?.id);
+                                  controller.eProduct.value = selectedValue;
+                                  controller
+                                      .getProductDetails(selectedValue?.id);
 
-                                  controller.eProduct.update((val) {
-                                    val = selectedValue;
-                                    controller
-                                        .getProductDetails(selectedValue?.id);
-                                  });
+                                  // controller.eProduct.update((val) {
+                                  //   val = selectedValue;
+                                  //   controller
+                                  //       .getProductDetails(selectedValue?.id);
+                                  // });
 
                                   print(
                                       "pp : ${controller.eProduct.value.name}");
@@ -452,12 +452,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                           labelText: "Name".tr,
                           readOnly: true,
                         )
-                      : TextFieldWidget(
-                          initialValue: "",
-                          hintText: "Name".tr,
-                          labelText: "Name".tr,
-                          readOnly: true,
-                        ),
+                      : SizedBox(),
                 ),
                 Obx(() => controller?.eProductDetails?.value != null
                     ? TextFieldWidget(
@@ -465,6 +460,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                             controller?.eProductDetails?.value?.description,
                         hintText: "Description for Product".tr,
                         labelText: "Description".tr,
+                        readOnly: true,
                       )
                     : SizedBox()),
                 Obx(() {
@@ -600,8 +596,8 @@ class EServiceFormView extends GetView<EServiceFormController> {
                   validator: (input) => (double.tryParse(input) ?? 0) <= 0
                       ? "Should be number more than 0".tr
                       : null,
-                  onChanged: (input) => controller.eService.value
-                      .discountPrice = (double.tryParse(input) ?? 0),
+                  onChanged: (input) =>
+                      controller.basicprice = (double.tryParse(input) ?? 0),
                   initialValue:
                       controller.eService.value.discountPrice?.toString(),
                   hintText: "Basic Price".tr,
@@ -630,51 +626,75 @@ class EServiceFormView extends GetView<EServiceFormController> {
                       ),
                     ),
                     Expanded(
-                      child: Obx(
-                          () => controller.eService.value.discountPrice != null
-                              ? TextFieldWidget(
-                                  readOnly: true,
-                                  initialValue: (controller?.eService?.value
-                                              ?.discountPrice ??
-                                          0 +
-                                              (controller?.eService?.value?.discountPrice ??
-                                                      0 *
-                                                          double.tryParse(controller
-                                                                  ?.eProductDetails
-                                                                  ?.value
-                                                                  ?.customer_commission ??
-                                                              "0")) /
-                                                  100 ??
-                                          0 +
-                                              (controller?.eService?.value?.discountPrice ??
-                                                      0 *
-                                                          double.tryParse(controller
-                                                                  ?.eProductDetails
-                                                                  ?.value
-                                                                  ?.commission_on_product ??
-                                                              "0")) /
-                                                  100 ??
-                                          0 + (controller?.eService?.value?.discountPrice ?? 0 * double.tryParse(controller?.eProductDetails?.value?.commission_agent ?? "0")) / 100 ??
-                                          0 + (controller?.eService?.value?.discountPrice ?? 0 * double.tryParse(controller?.eProductDetails?.value?.gst ?? "0")) / 100 ??
-                                          0)
-                                      .toString(),
-                                  hintText: "Final Price".tr,
-                                  labelText: "Final Price".tr,
-                                  suffix: Text(Get.find<SettingsService>()
-                                      .setting
-                                      .value
-                                      .defaultCurrency),
-                                )
-                              : TextFieldWidget(
-                                  readOnly: true,
-                                  initialValue: "0.0",
-                                  hintText: "Final Price".tr,
-                                  labelText: "Final Price".tr,
-                                  suffix: Text(Get.find<SettingsService>()
-                                      .setting
-                                      .value
-                                      .defaultCurrency),
-                                )),
+                      child: Obx(() => controller.basicprice != 0
+                          ? TextFieldWidget(
+                              readOnly: true,
+                              onSaved: (input) => controller
+                                  .eService.value.price = (controller
+                                      .basicprice ??
+                                  0 +
+                                      (controller.basicprice ??
+                                              0 *
+                                                  double.tryParse(controller
+                                                          ?.eProductDetails
+                                                          ?.value
+                                                          ?.customer_commission ??
+                                                      "0")) /
+                                          100 ??
+                                  0 +
+                                      (controller.basicprice ??
+                                              0 *
+                                                  double.tryParse(
+                                                      controller?.eProductDetails?.value?.commission_on_product ?? "0")) /
+                                          100 ??
+                                  0 + (controller.basicprice ?? 0 * double.tryParse(controller?.eProductDetails?.value?.commission_agent ?? "0")) / 100 ??
+                                  0 + (controller.basicprice ?? 0 * double.tryParse(controller?.eProductDetails?.value?.gst ?? "0")) / 100 ??
+                                  0),
+                              initialValue: (controller.basicprice ??
+                                      0 +
+                                          (controller.basicprice ??
+                                                  0 *
+                                                      double.tryParse(controller
+                                                              ?.eProductDetails
+                                                              ?.value
+                                                              ?.customer_commission ??
+                                                          "0")) /
+                                              100 ??
+                                      0 +
+                                          (controller.basicprice ??
+                                                  0 *
+                                                      double.tryParse(controller
+                                                              ?.eProductDetails
+                                                              ?.value
+                                                              ?.commission_on_product ??
+                                                          "0")) /
+                                              100 ??
+                                      0 +
+                                          (controller.basicprice ??
+                                                  0 *
+                                                      double.tryParse(
+                                                          controller?.eProductDetails?.value?.commission_agent ?? "0")) /
+                                              100 ??
+                                      0 + (controller.basicprice ?? 0 * double.tryParse(controller?.eProductDetails?.value?.gst ?? "0")) / 100 ??
+                                      0)
+                                  .toString(),
+                              hintText: "Final Price".tr,
+                              labelText: "Final Price".tr,
+                              suffix: Text(Get.find<SettingsService>()
+                                  .setting
+                                  .value
+                                  .defaultCurrency),
+                            )
+                          : TextFieldWidget(
+                              readOnly: true,
+                              initialValue: "0.0",
+                              hintText: "Final Price".tr,
+                              labelText: "Final Price".tr,
+                              suffix: Text(Get.find<SettingsService>()
+                                  .setting
+                                  .value
+                                  .defaultCurrency),
+                            )),
                     ),
                   ],
                 ),

@@ -9,6 +9,7 @@ import 'parents/model.dart';
 class EService extends Model {
   String id;
   String name;
+  String product_d;
   String description;
   List<Media> images;
   double price;
@@ -28,6 +29,7 @@ class EService extends Model {
   EService(
       {this.id,
       this.name,
+      this.product_d,
       this.description,
       this.images,
       this.price,
@@ -46,6 +48,7 @@ class EService extends Model {
 
   EService.fromJson(Map<String, dynamic> json) {
     name = transStringFromJson(json, 'name');
+    product_d = transStringFromJson(json, 'product_d');
     description = transStringFromJson(json, 'description');
     images = mediaListFromJson(json, 'images');
     price = doubleFromJson(json, 'price');
@@ -58,9 +61,12 @@ class EService extends Model {
     featured = boolFromJson(json, 'featured');
     enableBooking = boolFromJson(json, 'enable_booking');
     isFavorite = boolFromJson(json, 'is_favorite');
-    categories = listFromJson<Category>(json, 'categories', (value) => Category.fromJson(value));
-    subCategories = listFromJson<Category>(json, 'sub_categories', (value) => Category.fromJson(value));
-    eProvider = objectFromJson(json, 'e_provider', (value) => EProvider.fromJson(value));
+    categories = listFromJson<Category>(
+        json, 'categories', (value) => Category.fromJson(value));
+    subCategories = listFromJson<Category>(
+        json, 'sub_categories', (value) => Category.fromJson(value));
+    eProvider = objectFromJson(
+        json, 'e_provider', (value) => EProvider.fromJson(value));
     super.fromJson(json);
   }
 
@@ -68,11 +74,13 @@ class EService extends Model {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (id != null) data['id'] = this.id;
     if (name != null) data['name'] = this.name;
+    if (product_d != null) data['product_d'] = this.product_d;
     if (this.description != null) data['description'] = this.description;
     if (this.price != null) data['price'] = this.price;
     if (discountPrice != null) data['discount_price'] = this.discountPrice;
     if (priceUnit != null) data['price_unit'] = this.priceUnit;
-    if (quantityUnit != null && quantityUnit != 'null') data['quantity_unit'] = this.quantityUnit;
+    if (quantityUnit != null && quantityUnit != 'null')
+      data['quantity_unit'] = this.quantityUnit;
     if (rate != null) data['rate'] = this.rate;
     if (totalReviews != null) data['total_reviews'] = this.totalReviews;
     if (duration != null) data['duration'] = this.duration;
@@ -83,10 +91,15 @@ class EService extends Model {
       data['categories'] = this.categories.map((v) => v?.id).toList();
     }
     if (this.images != null) {
-      data['image'] = this.images.where((element) => Uuid.isUuid(element.id)).map((v) => v.id).toList();
+      data['image'] = this
+          .images
+          .where((element) => Uuid.isUuid(element.id))
+          .map((v) => v.id)
+          .toList();
     }
     if (this.subCategories != null) {
-      data['sub_categories'] = this.subCategories.map((v) => v.toJson()).toList();
+      data['sub_categories'] =
+          this.subCategories.map((v) => v.toJson()).toList();
     }
     if (this.eProvider != null && this.eProvider.hasData) {
       data['e_provider_id'] = this.eProvider.id;

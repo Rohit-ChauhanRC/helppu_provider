@@ -32,6 +32,10 @@ class EServiceFormController extends GetxController {
   CategoryRepository _categoryRepository;
   EProviderRepository _eProviderRepository;
 
+  final RxDouble _basicPrice = RxDouble(0);
+  double get basicprice => this._basicPrice.value;
+  set basicprice(double str) => this._basicPrice.value = str;
+
   EServiceFormController() {
     _eServiceRepository = new EServiceRepository();
     _categoryRepository = new CategoryRepository();
@@ -179,6 +183,11 @@ class EServiceFormController extends GetxController {
     Get.focusScope.unfocus();
     if (eServiceForm.currentState.validate()) {
       try {
+        // {"success":false,"message":[["The description field is required."],["The e provider id field is required."],["The product id field is required."]]}
+        eService.value.name = eProduct.value.name;
+        eService.value.product_d = eProduct.value.id;
+        eService.value.description = eProduct.value.description;
+        eService.value.categories = [eCategory.value];
         eServiceForm.currentState.save();
         var _eService = await _eServiceRepository.create(eService.value);
         if (createOptions)
