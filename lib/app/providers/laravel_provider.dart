@@ -1111,8 +1111,7 @@ class LaravelApiClient extends GetxService with ApiClient {
 
     var response = await _httpClient.getUri(_uri, options: _optionsCache);
     if (response.data['success'] == true) {
-      return response.data['data'].map<EServiceProductModel>(
-          (obj) => EServiceProductModel.fromJson(obj));
+      return EServiceProductModel.fromJson(response.data['data']);
     } else {
       throw new Exception(response.data['message']);
     }
