@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../models/category_model.dart';
+import '../models/e_service_product_model.dart';
 import '../providers/laravel_provider.dart';
 
 class CategoryRepository {
@@ -37,5 +38,9 @@ class CategoryRepository {
 
   Future<List<Category>> getAllSubCategories(params) {
     return _laravelApiClient.getAllSubCategories(params);
+  }
+
+  Future<EServiceProductModel> getProductById(id) {
+    return _laravelApiClient.getProductsById(id);
   }
 }

@@ -18,6 +18,7 @@ import '../models/e_provider_model.dart';
 import '../models/e_provider_subscription_model.dart';
 import '../models/e_provider_type_model.dart';
 import '../models/e_service_model.dart';
+import '../models/e_service_product_model.dart';
 import '../models/experience_model.dart';
 import '../models/faq_category_model.dart';
 import '../models/faq_model.dart';
@@ -1100,6 +1101,23 @@ class LaravelApiClient extends GetxService with ApiClient {
     }
   }
 
+  Future<EServiceProductModel> getProductsById(id) async {
+    var _queryParameters = {
+      'api_token': authService.apiToken,
+      "product_id": id,
+    };
+    Uri _uri = getApiBaseUri("provider/product-details")
+        .replace(queryParameters: _queryParameters);
+
+    var response = await _httpClient.getUri(_uri, options: _optionsCache);
+    if (response.data['success'] == true) {
+      return response.data['data'].map<EServiceProductModel>(
+          (obj) => EServiceProductModel.fromJson(obj));
+    } else {
+      throw new Exception(response.data['message']);
+    }
+  }
+
   Future<List<Category>> getAllParentCategories() async {
     const _queryParameters = {
       'parent': 'true',
@@ -1143,6 +1161,7 @@ class LaravelApiClient extends GetxService with ApiClient {
   Future<List<Category>> getUserSelectedSubCategories(id) async {
     var _queryParameters = {
       'category_id': id,
+      'api_token': authService.apiToken,
     };
     Uri _uri = getApiBaseUri("provider/get_user_selected_sucategories")
         .replace(queryParameters: _queryParameters);
@@ -1159,9 +1178,11 @@ class LaravelApiClient extends GetxService with ApiClient {
 
   Future<List<Category>> getUserSelectedProducts(
       category_id, subcategory_id) async {
+    print("${category_id} ${subcategory_id}");
     var _queryParameters = {
       'category_id': category_id,
-      'subcategory_id': subcategory_id,
+      'sub_categories_id': subcategory_id,
+      'api_token': authService.apiToken,
     };
     Uri _uri = getApiBaseUri("provider/get_category_by_product")
         .replace(queryParameters: _queryParameters);

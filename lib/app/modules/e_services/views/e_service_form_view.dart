@@ -219,6 +219,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                                   );
                                   controller.eCategory.update((val) {
                                     val = selectedValue;
+                                    controller.eCategory.value = selectedValue;
                                     controller
                                         .getSubCategories(selectedValue?.id);
                                   });
@@ -236,7 +237,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                             ],
                           ),
                           Obx(() {
-                            if (controller.eService.value?.categories == null) {
+                            if (controller.eCategory.value == null) {
                               return Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20),
                                 child: Text(
@@ -307,6 +308,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                                       );
                                     },
                                   );
+                                  controller.eSubCategory.value = selectedValue;
                                   controller.eSubCategory.update((val) {
                                     val = selectedValue;
                                     controller.getproduct(
@@ -327,7 +329,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                             ],
                           ),
                           Obx(() {
-                            if (controller.eService.value?.categories == null) {
+                            if (controller.eSubCategory.value == null) {
                               return Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20),
                                 child: Text(
@@ -344,193 +346,6 @@ class EServiceFormView extends GetView<EServiceFormController> {
                       ),
                     );
                 }),
-
-                // Container(
-                //   padding:
-                //       EdgeInsets.only(top: 8, bottom: 10, left: 20, right: 20),
-                //   margin:
-                //       EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-                //   decoration: BoxDecoration(
-                //       color: Get.theme.primaryColor,
-                //       borderRadius: BorderRadius.all(Radius.circular(10)),
-                //       boxShadow: [
-                //         BoxShadow(
-                //             color: Get.theme.focusColor.withOpacity(0.1),
-                //             blurRadius: 10,
-                //             offset: Offset(0, 5)),
-                //       ],
-                //       border: Border.all(
-                //           color: Get.theme.focusColor.withOpacity(0.05))),
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.stretch,
-                //     children: [
-                //       Row(
-                //         children: [
-                //           Expanded(
-                //             child: Text(
-                //               "Categories".tr,
-                //               style: Get.textTheme.bodyText1,
-                //               textAlign: TextAlign.start,
-                //             ),
-                //           ),
-                //           MaterialButton(
-                //             onPressed: () async {
-                //               final selectedValues =
-                //                   await showDialog<Set<Category>>(
-                //                 context: context,
-                //                 builder: (BuildContext context) {
-                //                   return MultiSelectDialog(
-                //                     title: "Select Categories".tr,
-                //                     submitText: "Submit".tr,
-                //                     cancelText: "Cancel".tr,
-                //                     items: controller
-                //                         .getMultiSelectCategoriesItems(),
-                //                     initialSelectedValues: controller.categories
-                //                         .where(
-                //                           (category) =>
-                //                               controller
-                //                                   .eService.value.categories
-                //                                   ?.where((element) =>
-                //                                       element.id == category.id)
-                //                                   ?.isNotEmpty ??
-                //                               false,
-                //                         )
-                //                         .toSet(),
-                //                   );
-                //                 },
-                //               );
-                //               controller.eService.update((val) {
-                //                 val.categories = selectedValues?.toList();
-                //                 controller.getSubCategories(selectedValues);
-                //                 //controller.eProvider.value.categories = idsList;
-                //               });
-                //             },
-                //             shape: StadiumBorder(),
-                //             color: Get.theme.colorScheme.secondary
-                //                 .withOpacity(0.1),
-                //             child: Text("Select".tr,
-                //                 style: Get.textTheme.subtitle1),
-                //             elevation: 0,
-                //             hoverElevation: 0,
-                //             focusElevation: 0,
-                //             highlightElevation: 0,
-                //           ),
-                //         ],
-                //       ),
-                //       Obx(() {
-                //         if (controller.eService.value?.categories?.isEmpty ??
-                //             true) {
-                //           return Padding(
-                //             padding: EdgeInsets.symmetric(vertical: 20),
-                //             child: Text(
-                //               "Select categories".tr,
-                //               style: Get.textTheme.caption,
-                //             ),
-                //           );
-                //         } else {
-                //           return buildCategories(controller.eService.value);
-                //         }
-                //       })
-                //     ],
-                //   ),
-                // ),
-                // Container(
-                //   padding:
-                //       EdgeInsets.only(top: 8, bottom: 10, left: 20, right: 20),
-                //   margin:
-                //       EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-                //   decoration: BoxDecoration(
-                //       color: Get.theme.primaryColor,
-                //       borderRadius: BorderRadius.all(Radius.circular(10)),
-                //       boxShadow: [
-                //         BoxShadow(
-                //             color: Get.theme.focusColor.withOpacity(0.1),
-                //             blurRadius: 10,
-                //             offset: Offset(0, 5)),
-                //       ],
-                //       border: Border.all(
-                //           color: Get.theme.focusColor.withOpacity(0.05))),
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.stretch,
-                //     children: [
-                //       Row(
-                //         children: [
-                //           Expanded(
-                //             child: Text(
-                //               "SubCategories".tr,
-                //               style: Get.textTheme.bodyText1,
-                //               textAlign: TextAlign.start,
-                //             ),
-                //           ),
-                //           MaterialButton(
-                //             onPressed: () async {
-                //               final selectedValues =
-                //                   await showDialog<Set<Category>>(
-                //                 context: context,
-                //                 builder: (BuildContext context) {
-                //                   return MultiSelectDialog(
-                //                     title: "Select SubCategories".tr,
-                //                     submitText: "Submit".tr,
-                //                     cancelText: "Cancel".tr,
-                //                     items: controller
-                //                         .getSubMultiSelectCategoriesItems(),
-                //                     initialSelectedValues: controller
-                //                         .subCategories
-                //                         .where(
-                //                           (category) =>
-                //                               controller
-                //                                   .eSubService.value.categories
-                //                                   ?.where((element) =>
-                //                                       element.id == category.id)
-                //                                   ?.isNotEmpty ??
-                //                               false,
-                //                         )
-                //                         .toSet(),
-                //                   );
-                //                 },
-                //               );
-                //               controller.eSubService.update((val) {
-                //                 val.categories = selectedValues?.toList();
-
-                //                 //var idsList = selectedValues
-                //                 //    ?.toList()
-                //                 //    ?.map((((e) => e.id)))
-                //                 //    ?.toList();
-                //                 //controller.eProvider.value.subCategories =
-                //                 //    idsList;
-                //                 //debugPrint("idsList : ${idsList}");
-                //                 //controller?.getSubCategories(idsList);
-                //               });
-                //             },
-                //             shape: StadiumBorder(),
-                //             color: Get.theme.colorScheme.secondary
-                //                 .withOpacity(0.1),
-                //             child: Text("Select".tr,
-                //                 style: Get.textTheme.subtitle1),
-                //             elevation: 0,
-                //             hoverElevation: 0,
-                //             focusElevation: 0,
-                //             highlightElevation: 0,
-                //           ),
-                //         ],
-                //       ),
-                //       Obx(() {
-                //         if (controller.eService.value?.categories?.isEmpty ??
-                //             true) {
-                //           return Padding(
-                //             padding: EdgeInsets.symmetric(vertical: 20),
-                //             child: Text(
-                //               "Select Subcategories".tr,
-                //               style: Get.textTheme.caption,
-                //             ),
-                //           );
-                //         } else {
-                //           return buildCategories(controller.eSubService.value);
-                //         }
-                //       })
-                //     ],
-                //   ),
-                // ),
 
                 // product
                 Obx(() {
@@ -588,7 +403,8 @@ class EServiceFormView extends GetView<EServiceFormController> {
                                   );
                                   controller.eProduct.update((val) {
                                     val = selectedValue;
-                                    // controller.getproduct(controller?.eCategory?.value?.id,selectedValue?.id);
+                                    controller
+                                        .getProductDetails(selectedValue?.id);
                                   });
                                 },
                                 shape: StadiumBorder(),
@@ -622,9 +438,9 @@ class EServiceFormView extends GetView<EServiceFormController> {
                 }),
 
                 TextFieldWidget(
-                  initialValue: "Product 1",
-                  hintText: "Name".tr,
-                  labelText: "Name".tr,
+                  initialValue: controller.eProduct.value?.name,
+                  hintText: "Product".tr,
+                  labelText: "Product".tr,
                   readOnly: true,
                 ),
                 TextFieldWidget(
@@ -634,8 +450,8 @@ class EServiceFormView extends GetView<EServiceFormController> {
                       ? "Should be more than 3 letters".tr
                       : null,
                   keyboardType: TextInputType.multiline,
-                  initialValue: controller.eService.value.description,
-                  hintText: "Description for Post Party Cleaning".tr,
+                  initialValue: controller.eProductDetails.value.description,
+                  hintText: "Description for Product".tr,
                   labelText: "Description".tr,
                 ),
                 Obx(() {
@@ -733,31 +549,42 @@ class EServiceFormView extends GetView<EServiceFormController> {
                 }),
 
                 TextFieldWidget(
-                  initialValue: "10%",
+                  initialValue:
+                      controller.eProductDetails.value.customer_commission,
                   hintText: "Customer Commission".tr,
                   labelText: "Customer Commission".tr,
                   readOnly: true,
                 ),
                 TextFieldWidget(
-                  initialValue: "10%",
+                  initialValue:
+                      controller.eProductDetails.value.commission_on_product,
                   hintText: "Commission on Product".tr,
                   labelText: "Commission on Product".tr,
                   readOnly: true,
                 ),
                 TextFieldWidget(
-                  initialValue: "10%",
+                  initialValue:
+                      controller.eProductDetails.value.commission_agent,
+                  hintText: "Commission on Agent".tr,
+                  labelText: "Commission on Agent".tr,
+                  readOnly: true,
+                ),
+                TextFieldWidget(
+                  initialValue: controller.eProductDetails.value.gst,
                   hintText: "GST".tr,
                   labelText: "GST".tr,
                   readOnly: true,
                 ),
                 TextFieldWidget(
-                  // onSaved: (input) =>
-                  //     controller.eService.value.description = input,
-                  // initialValue: controller.eService.value.description,
-                  initialValue: "10%",
+                  validator: (input) => (double.tryParse(input) ?? 0) <= 0
+                      ? "Should be number more than 0".tr
+                      : null,
+                  onSaved: (input) => controller.eService.value.discountPrice =
+                      (double.tryParse(input) ?? 0),
+                  initialValue:
+                      controller.eService.value.discountPrice?.toString(),
                   hintText: "Basic Price".tr,
                   labelText: "Basic Price".tr,
-                  // readOnly: true,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -783,7 +610,44 @@ class EServiceFormView extends GetView<EServiceFormController> {
                     ),
                     Expanded(
                       child: TextFieldWidget(
-                        initialValue: "20%" ?? null,
+                        readOnly: true,
+                        onSaved: (input) => controller.eService.value
+                            .price = (controller.eService.value.discountPrice +
+                                (controller.eService.value.discountPrice *
+                                        double.tryParse(controller
+                                            .eProductDetails
+                                            .value
+                                            .customer_commission)) /
+                                    100 ??
+                            0 +
+                                (controller.eService.value.discountPrice *
+                                        double.tryParse(
+                                            controller.eProductDetails.value.commission_on_product)) /
+                                    100 ??
+                            0 + (controller.eService.value.discountPrice * double.tryParse(controller.eProductDetails.value.commission_agent)) / 100 ??
+                            0 + (controller.eService.value.discountPrice * double.tryParse(controller.eProductDetails.value.gst)) / 100 ??
+                            0),
+                        initialValue: (controller.eService.value.discountPrice +
+                                    (controller.eService.value.discountPrice *
+                                            double.tryParse(controller
+                                                .eProductDetails
+                                                .value
+                                                .customer_commission)) /
+                                        100 ??
+                                0 +
+                                    (controller.eService.value.discountPrice *
+                                            double.tryParse(controller
+                                                .eProductDetails
+                                                .value
+                                                .commission_on_product)) /
+                                        100 ??
+                                0 +
+                                    (controller.eService.value.discountPrice *
+                                            double.tryParse(controller.eProductDetails.value.commission_agent)) /
+                                        100 ??
+                                0 + (controller.eService.value.discountPrice * double.tryParse(controller.eProductDetails.value.gst)) / 100 ??
+                                0)
+                            .toString(),
                         hintText: "Final Price".tr,
                         labelText: "Final Price".tr,
                         suffix: Text(Get.find<SettingsService>()

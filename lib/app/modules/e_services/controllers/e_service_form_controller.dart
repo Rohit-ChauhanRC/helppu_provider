@@ -5,6 +5,7 @@ import '../../../../common/ui.dart';
 import '../../../models/category_model.dart';
 import '../../../models/e_provider_model.dart';
 import '../../../models/e_service_model.dart';
+import '../../../models/e_service_product_model.dart';
 import '../../../models/option_group_model.dart';
 import '../../../repositories/category_repository.dart';
 import '../../../repositories/e_provider_repository.dart';
@@ -24,6 +25,7 @@ class EServiceFormController extends GetxController {
   final eCategory = Category().obs;
   final eSubCategory = Category().obs;
   final eProduct = Category().obs;
+  final eProductDetails = EServiceProductModel().obs;
 
   GlobalKey<FormState> eServiceForm = new GlobalKey<FormState>();
   EServiceRepository _eServiceRepository;
@@ -94,6 +96,17 @@ class EServiceFormController extends GetxController {
     try {
       products.assignAll(await _categoryRepository.getUserSelecteProducts(
           category_id, subcategory_id));
+    } catch (e) {
+      Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
+    }
+  }
+
+  Future getProductDetails(
+    category_id,
+  ) async {
+    try {
+      eProductDetails.value =
+          await _categoryRepository.getProductById(category_id);
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }
