@@ -8,6 +8,7 @@ import '../../common/uuid.dart';
 import 'address_model.dart';
 import 'availability_hour_model.dart';
 import 'e_provider_type_model.dart';
+import 'e_service_model.dart';
 import 'media_model.dart';
 import 'parents/model.dart';
 import 'review_model.dart';
@@ -37,6 +38,7 @@ class EProvider extends Model {
   bool featured;
   List<Address> addresses;
   List<Tax> taxes;
+  List<String> services;
 
   List<User> employees;
   double rate;
@@ -74,6 +76,7 @@ class EProvider extends Model {
     this.accNumber,
     this.branchName,
     this.ifscCode,
+    this.services,
   });
 
   EProvider.fromJson(Map<String, dynamic> json) {
@@ -119,7 +122,7 @@ class EProvider extends Model {
       subCategories = json['sub_categories_id'].split(',');
     }
     ;
-    //subCategories = json["sub_categories_id"];
+    //services = json["service_id"];
   }
 
   Map<String, dynamic> toJson() {
@@ -162,6 +165,10 @@ class EProvider extends Model {
     if (this.availabilityRange != null) {
       data['availability_range'] = availabilityRange;
     }
+    if (this.services != null) {
+      data['service_id'] = services;
+    }
+
     return data;
   }
 

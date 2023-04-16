@@ -34,9 +34,12 @@ class MainDrawerWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Welcome".tr, style: Get.textTheme.headline5.merge(TextStyle(color: Get.theme.colorScheme.secondary))),
+                      Text("Welcome".tr,
+                          style: Get.textTheme.headline5.merge(TextStyle(
+                              color: Get.theme.colorScheme.secondary))),
                       SizedBox(height: 5),
-                      Text("Login account or create new one for free".tr, style: Get.textTheme.bodyText1),
+                      Text("Login account or create new one for free".tr,
+                          style: Get.textTheme.bodyText1),
                       SizedBox(height: 15),
                       Wrap(
                         spacing: 10,
@@ -53,10 +56,12 @@ class MainDrawerWidget extends StatelessWidget {
                               crossAxisAlignment: WrapCrossAlignment.center,
                               spacing: 9,
                               children: [
-                                Icon(Icons.exit_to_app_outlined, color: Get.theme.primaryColor, size: 24),
+                                Icon(Icons.exit_to_app_outlined,
+                                    color: Get.theme.primaryColor, size: 24),
                                 Text(
                                   "Login".tr,
-                                  style: Get.textTheme.subtitle1.merge(TextStyle(color: Get.theme.primaryColor)),
+                                  style: Get.textTheme.subtitle1.merge(
+                                      TextStyle(color: Get.theme.primaryColor)),
                                 ),
                               ],
                             ),
@@ -74,10 +79,12 @@ class MainDrawerWidget extends StatelessWidget {
                               crossAxisAlignment: WrapCrossAlignment.center,
                               spacing: 9,
                               children: [
-                                Icon(Icons.person_add_outlined, color: Get.theme.hintColor, size: 24),
+                                Icon(Icons.person_add_outlined,
+                                    color: Get.theme.hintColor, size: 24),
                                 Text(
                                   "Register".tr,
-                                  style: Get.textTheme.subtitle1.merge(TextStyle(color: Get.theme.hintColor)),
+                                  style: Get.textTheme.subtitle1.merge(
+                                      TextStyle(color: Get.theme.hintColor)),
                                 ),
                               ],
                             ),
@@ -117,21 +124,29 @@ class MainDrawerWidget extends StatelessWidget {
                             height: 80,
                             width: double.infinity,
                             fit: BoxFit.cover,
-                            imageUrl: Get.find<AuthService>().user.value.avatar.thumb,
+                            imageUrl:
+                                Get.find<AuthService>().user.value.avatar.thumb,
                             placeholder: (context, url) => Image.asset(
                               'assets/img/loading.gif',
                               fit: BoxFit.cover,
                               width: double.infinity,
                               height: 80,
                             ),
-                            errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error_outline),
                           ),
                         ),
                       ),
                       Positioned(
                         top: 0,
                         right: 0,
-                        child: Get.find<AuthService>().user.value.verifiedPhone ?? false ? Icon(Icons.check_circle, color: Get.theme.colorScheme.secondary, size: 24) : SizedBox(),
+                        child:
+                            Get.find<AuthService>().user.value.verifiedPhone ??
+                                    false
+                                ? Icon(Icons.check_circle,
+                                    color: Get.theme.colorScheme.secondary,
+                                    size: 24)
+                                : SizedBox(),
                       )
                     ],
                   ),
@@ -164,6 +179,13 @@ class MainDrawerWidget extends StatelessWidget {
             },
           ),
           DrawerLinkWidget(
+            icon: Icons.folder_special_outlined,
+            text: "My Employees",
+            onTap: (e) {
+              Get.toNamed(Routes.MY_EMPLOYEE_ADDRESS);
+            },
+          ),
+          DrawerLinkWidget(
             icon: Icons.notifications_none_outlined,
             text: "Notifications",
             onTap: (e) {
@@ -180,7 +202,11 @@ class MainDrawerWidget extends StatelessWidget {
               },
             ),
           if (Get.find<AuthService>().user.value.isProvider)
-            if (Get.find<SettingsService>().setting.value.modules.contains("Subscription"))
+            if (Get.find<SettingsService>()
+                .setting
+                .value
+                .modules
+                .contains("Subscription"))
               ListTile(
                 dense: true,
                 title: Text(
@@ -193,7 +219,11 @@ class MainDrawerWidget extends StatelessWidget {
                 ),
               ),
           if (Get.find<AuthService>().user.value.isProvider)
-            if (Get.find<SettingsService>().setting.value.modules.contains("Subscription"))
+            if (Get.find<SettingsService>()
+                .setting
+                .value
+                .modules
+                .contains("Subscription"))
               DrawerLinkWidget(
                 icon: Icons.fact_check_outlined,
                 text: "Subscriptions History",
@@ -202,7 +232,11 @@ class MainDrawerWidget extends StatelessWidget {
                 },
               ),
           if (Get.find<AuthService>().user.value.isProvider)
-            if (Get.find<SettingsService>().setting.value.modules.contains("Subscription"))
+            if (Get.find<SettingsService>()
+                .setting
+                .value
+                .modules
+                .contains("Subscription"))
               DrawerLinkWidget(
                 icon: Icons.auto_awesome_mosaic_outlined,
                 text: "Subscription Packages",
@@ -211,7 +245,11 @@ class MainDrawerWidget extends StatelessWidget {
                 },
               ),
           if (Get.find<AuthService>().user.value.isProvider)
-            if (Get.find<SettingsService>().setting.value.modules.contains("Subscription"))
+            if (Get.find<SettingsService>()
+                .setting
+                .value
+                .modules
+                .contains("Subscription"))
               DrawerLinkWidget(
                 icon: Icons.account_balance_wallet_outlined,
                 text: "Wallets",
@@ -278,7 +316,8 @@ class MainDrawerWidget extends StatelessWidget {
               Get.offAndToNamed(Routes.HELP);
             },
           ),
-          if (Get.find<AuthService>().user.value.isProvider) CustomPageDrawerLinkWidget(),
+          if (Get.find<AuthService>().user.value.isProvider)
+            CustomPageDrawerLinkWidget(),
           Obx(() {
             if (Get.find<AuthService>().isAuth) {
               return DrawerLinkWidget(
@@ -302,7 +341,9 @@ class MainDrawerWidget extends StatelessWidget {
             ListTile(
               dense: true,
               title: Text(
-                "Version".tr + " " + Get.find<SettingsService>().setting.value.appVersion,
+                "Version".tr +
+                    " " +
+                    Get.find<SettingsService>().setting.value.appVersion,
                 style: Get.textTheme.caption,
               ),
               trailing: Icon(

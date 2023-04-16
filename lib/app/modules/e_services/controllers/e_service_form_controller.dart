@@ -36,6 +36,22 @@ class EServiceFormController extends GetxController {
   double get basicprice => this._basicPrice.value;
   set basicprice(double str) => this._basicPrice.value = str;
 
+  final RxString _productName = RxString("");
+  String get productName => this._productName.value;
+  set productName(String str) => this._productName.value = str;
+
+  final RxString _productDesc = RxString("");
+  String get productDesc => this._productDesc.value;
+  set productDesc(String str) => this._productDesc.value = str;
+
+  final RxString _productId = RxString("");
+  String get productId => this._productId.value;
+  set productId(String str) => this._productId.value = str;
+
+  final RxDouble _finalPrice = RxDouble(0);
+  double get finalPrice => this._finalPrice.value;
+  set finalPrice(double str) => this._finalPrice.value = str;
+
   EServiceFormController() {
     _eServiceRepository = new EServiceRepository();
     _categoryRepository = new CategoryRepository();
@@ -184,10 +200,11 @@ class EServiceFormController extends GetxController {
     if (eServiceForm.currentState.validate()) {
       try {
         // {"success":false,"message":[["The description field is required."],["The e provider id field is required."],["The product id field is required."]]}
-        eService.value.name = eProduct.value.name;
+        eService.value.name = productName;
         eService.value.product_d = eProduct.value.id;
-        eService.value.description = eProduct.value.description;
+        eService.value.description = productDesc;
         eService.value.categories = [eCategory.value];
+        eService.value.product = eProduct.value;
         eServiceForm.currentState.save();
         var _eService = await _eServiceRepository.create(eService.value);
         if (createOptions)

@@ -53,4 +53,9 @@ class Routes {
   static const WALLET_FORM = '/wallet_form';
   static const PACKAGES = '/packages';
   static const SUBSCRIPTIONS = '/subscriptions';
+  static const MY_EMPLOYEE = '/my-employee';
+  static const MY_EMPLOYEE_ADDRESS = '/my-employee-address';
+  static const MY_EMPLOYEE_REGISTRATION = '/my-employee-registration';
+  static const MY_EMPLOYEE_DETAILS = '/my-employee-details';
+  static const MY_EMPLOYEE_AVAILABILITY = '/my-employee-availability';
 }

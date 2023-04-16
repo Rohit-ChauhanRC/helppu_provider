@@ -88,6 +88,10 @@ class EProviderRepository {
     return _laravelApiClient.getEProviderTypes();
   }
 
+  Future<List<EService>> getServiceList() {
+    return _laravelApiClient.getAllServices();
+  }
+
   /**
    * Get the User's address
    */
@@ -114,11 +118,13 @@ class EProviderRepository {
     return _laravelApiClient.getAvailabilityHours(eProvider);
   }
 
-  Future<AvailabilityHour> createAvailabilityHour(AvailabilityHour availabilityHour) {
+  Future<AvailabilityHour> createAvailabilityHour(
+      AvailabilityHour availabilityHour) {
     return _laravelApiClient.createAvailabilityHour(availabilityHour);
   }
 
-  Future<AvailabilityHour> deleteAvailabilityHour(AvailabilityHour availabilityHour) {
+  Future<AvailabilityHour> deleteAvailabilityHour(
+      AvailabilityHour availabilityHour) {
     return _laravelApiClient.deleteAvailabilityHour(availabilityHour);
   }
 

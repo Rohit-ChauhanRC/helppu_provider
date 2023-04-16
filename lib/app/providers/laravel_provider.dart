@@ -137,6 +137,26 @@ class LaravelApiClient extends GetxService with ApiClient {
     }
   }
 
+  Future<User> registerEmployee(User user) async {
+    var _queryParameters = {
+      'api_token': authService.apiToken,
+    };
+    Uri _uri =
+        getApiBaseUri("signup").replace(queryParameters: _queryParameters);
+
+    var response = await _httpClient.postUri(
+      _uri,
+      data: json.encode(user.toJson()),
+      options: _optionsNetwork,
+    );
+    if (response.data['success'] == true) {
+      response.data['data']['auth'] = true;
+      return User.fromJson(response.data['data']);
+    } else {
+      throw new Exception(response.data['message']);
+    }
+  }
+
   Future<bool> sendResetLinkEmail(User user) async {
     Uri _uri = getApiBaseUri("provider/send_reset_link_email");
 
@@ -330,7 +350,7 @@ class LaravelApiClient extends GetxService with ApiClient {
     };
     Uri _uri =
         getApiBaseUri("e_services").replace(queryParameters: _queryParameters);
-
+    print("params: ${eService}");
     var response = await _httpClient.postUri(
       _uri,
       data: json.encode(eService.toJson()),
@@ -478,6 +498,7 @@ class LaravelApiClient extends GetxService with ApiClient {
     var _queryParameters = {
       'api_token': authService.apiToken,
     };
+    print("_eProvider ${_eProvider}");
     Uri _uri =
         getApiBaseUri("e_providers").replace(queryParameters: _queryParameters);
 
@@ -823,6 +844,24 @@ class LaravelApiClient extends GetxService with ApiClient {
       _queryParameters['searchFields'] += ';e_provider_id:=';
       _queryParameters['searchJoin'] = 'and';
     }
+    Uri _uri = getApiBaseUri("provider/e_services")
+        .replace(queryParameters: _queryParameters);
+
+    var response = await _httpClient.getUri(_uri, options: _optionsCache);
+    if (response.data['success'] == true) {
+      return response.data['data']
+          .map<EService>((obj) => EService.fromJson(obj))
+          .toList();
+    } else {
+      throw new Exception(response.data['message']);
+    }
+  }
+
+  Future<List<EService>> getAllServices() async {
+    var _queryParameters = {
+      'api_token': authService.apiToken,
+    };
+
     Uri _uri = getApiBaseUri("provider/e_services")
         .replace(queryParameters: _queryParameters);
 

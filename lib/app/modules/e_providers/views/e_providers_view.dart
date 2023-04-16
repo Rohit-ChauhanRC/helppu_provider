@@ -14,7 +14,11 @@ class EProvidersView extends GetView<EProvidersController> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      floatingActionButton: new FloatingActionButton(
+      floatingActionButton:
+          //controller.eProviders.length > 1
+          //    ? SizedBox()
+          //    :
+          new FloatingActionButton(
         child: new Icon(Icons.add, size: 32, color: Get.theme.primaryColor),
         onPressed: () => {Get.offAndToNamed(Routes.E_PROVIDER_ADDRESSES_FORM)},
         backgroundColor: Get.theme.colorScheme.secondary,
@@ -49,7 +53,8 @@ class EProvidersView extends GetView<EProvidersController> {
                   primary: false,
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  children: List.generate(EProviderFilter.values.length, (index) {
+                  children:
+                      List.generate(EProviderFilter.values.length, (index) {
                     var _filter = EProviderFilter.values.elementAt(index);
                     return Obx(() {
                       return Padding(
@@ -57,17 +62,24 @@ class EProvidersView extends GetView<EProvidersController> {
                         child: RawChip(
                           elevation: 0,
                           label: Text(_filter.toString().tr),
-                          labelStyle: controller.isSelected(_filter) ? Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor)) : Get.textTheme.bodyText2,
-                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-                          backgroundColor: Get.theme.focusColor.withOpacity(0.1),
+                          labelStyle: controller.isSelected(_filter)
+                              ? Get.textTheme.bodyText2.merge(
+                                  TextStyle(color: Get.theme.primaryColor))
+                              : Get.textTheme.bodyText2,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 15),
+                          backgroundColor:
+                              Get.theme.focusColor.withOpacity(0.1),
                           selectedColor: Get.theme.colorScheme.secondary,
                           selected: controller.isSelected(_filter),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
                           showCheckmark: true,
                           checkmarkColor: Get.theme.primaryColor,
                           onSelected: (bool value) {
                             controller.toggleSelected(_filter);
-                            controller.loadEProvidersOfFilter(filter: controller.selected.value);
+                            controller.loadEProvidersOfFilter(
+                                filter: controller.selected.value);
                           },
                         ),
                       );

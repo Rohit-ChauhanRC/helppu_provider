@@ -7,6 +7,7 @@ import 'settings_service.dart';
 
 class AuthService extends GetxService {
   final user = User().obs;
+  final newUser = User().obs;
   GetStorage _box;
 
   UserRepository _usersRepo;
@@ -27,9 +28,29 @@ class AuthService extends GetxService {
     return this;
   }
 
+  Future<AuthService> inituser() async {
+    newUser.listen((User _user) {
+      if (Get.isRegistered<SettingsService>()) {
+        Get.find<SettingsService>().address.value.userId = _user.id;
+      }
+      _box.write('newUser', _user.toJson());
+    });
+    await getCurrentUsernewUser();
+    return this;
+  }
+
   Future getCurrentUser() async {
     if (user.value.auth == null && _box.hasData('current_user')) {
       user.value = User.fromJson(await _box.read('current_user'));
+      user.value.auth = true;
+    } else {
+      user.value.auth = false;
+    }
+  }
+
+  Future getCurrentUsernewUser() async {
+    if (user.value.auth == null && _box.hasData('newUser')) {
+      user.value = User.fromJson(await _box.read('newUser'));
       user.value.auth = true;
     } else {
       user.value.auth = false;

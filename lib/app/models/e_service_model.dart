@@ -25,30 +25,33 @@ class EService extends Model {
   List<Category> categories;
   List<Category> subCategories;
   EProvider eProvider;
+  Category product;
 
-  EService(
-      {this.id,
-      this.name,
-      this.product_d,
-      this.description,
-      this.images,
-      this.price,
-      this.discountPrice,
-      this.priceUnit,
-      this.quantityUnit,
-      this.rate,
-      this.totalReviews,
-      this.duration,
-      this.featured,
-      this.enableBooking,
-      this.isFavorite,
-      this.categories,
-      this.subCategories,
-      this.eProvider});
+  EService({
+    this.id,
+    this.name,
+    this.product_d,
+    this.description,
+    this.images,
+    this.price,
+    this.discountPrice,
+    this.priceUnit,
+    this.quantityUnit,
+    this.rate,
+    this.totalReviews,
+    this.duration,
+    this.featured,
+    this.enableBooking,
+    this.isFavorite,
+    this.categories,
+    this.subCategories,
+    this.eProvider,
+    this.product,
+  });
 
   EService.fromJson(Map<String, dynamic> json) {
     name = transStringFromJson(json, 'name');
-    product_d = transStringFromJson(json, 'product_d');
+    product_d = transStringFromJson(json, 'product_id');
     description = transStringFromJson(json, 'description');
     images = mediaListFromJson(json, 'images');
     price = doubleFromJson(json, 'price');
@@ -67,6 +70,8 @@ class EService extends Model {
         json, 'sub_categories', (value) => Category.fromJson(value));
     eProvider = objectFromJson(
         json, 'e_provider', (value) => EProvider.fromJson(value));
+    product =
+        objectFromJson(json, 'e_provider', (value) => Category.fromJson(value));
     super.fromJson(json);
   }
 
@@ -103,6 +108,9 @@ class EService extends Model {
     }
     if (this.eProvider != null && this.eProvider.hasData) {
       data['e_provider_id'] = this.eProvider.id;
+    }
+    if (this.product != null && this.product.hasData) {
+      data['product_id'] = this.product.id;
     }
     return data;
   }

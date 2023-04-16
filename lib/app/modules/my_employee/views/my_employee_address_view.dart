@@ -6,19 +6,18 @@ import '../../../../common/map.dart';
 import '../../../../common/ui.dart';
 import '../../../models/address_model.dart';
 import '../../../routes/app_routes.dart';
+import '../../e_providers/widgets/horizontal_stepper_widget.dart';
+import '../../e_providers/widgets/step_widget.dart';
 import '../../global_widgets/confirm_dialog.dart';
-import '../controllers/e_provider_addresses_form_controller.dart';
-import '../widgets/horizontal_stepper_widget.dart';
-import '../widgets/step_widget.dart';
+import '../controllers/my_employee_address_controller.dart';
 
-class EProviderAddressesFormView
-    extends GetView<EProviderAddressesFormController> {
+class MyEmployeeAddressView extends GetView<MyEmployeeAddressesFormController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Provider Addresses".tr,
+            "Employee Addresses".tr,
             style: context.textTheme.headline6,
           ),
           centerTitle: true,
@@ -27,12 +26,16 @@ class EProviderAddressesFormView
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back_ios, color: Get.theme.hintColor),
             onPressed: () async {
-              controller.isCreateForm()
-                  ? await Get.offAndToNamed(Routes.E_PROVIDERS)
-                  : await Get.offAndToNamed(Routes.E_PROVIDER, arguments: {
-                      'eProvider': controller.eProvider.value,
-                      'heroTag': 'e_provider_addresses_form_back'
-                    });
+              //Get.back();
+              //controller.isCreateForm()
+              //    ? await Get.offAndToNamed(Routes.E_PROVIDERS)
+              //:
+              Get.offNamedUntil(Routes.E_PROVIDERS,
+                  (route) => route.settings.name == Routes.E_PROVIDERS);
+              //await Get.offAndToNamed(Routes.E_PROVIDER, arguments: {
+              //  'eProvider': controller.eProvider.value,
+              //  'heroTag': 'e_provider_addresses_form_back'
+              //});
             },
           ),
           elevation: 0,
@@ -66,10 +69,14 @@ class EProviderAddressesFormView
                     onPressed: controller.eProvider.value.addresses.isEmpty
                         ? null
                         : () async {
-                            await Get.toNamed(Routes.E_PROVIDER_FORM,
+                            await Get.toNamed(Routes.MY_EMPLOYEE_REGISTRATION,
                                 arguments: {
                                   'eProvider': controller.eProvider.value
                                 });
+                            //await Get.toNamed(Routes.E_PROVIDER_FORM,
+                            //    arguments: {
+                            //      'eProvider': controller.eProvider.value
+                            //    });
                           },
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                     shape: RoundedRectangleBorder(
@@ -105,7 +112,7 @@ class EProviderAddressesFormView
                 ),
                 StepWidget(
                   title: Text(
-                    "Provider Details".tr,
+                    "Registration".tr,
                   ),
                   color: Get.theme.focusColor,
                   index: Text("2",
@@ -113,7 +120,15 @@ class EProviderAddressesFormView
                 ),
                 StepWidget(
                   title: Text(
-                    "Availability".tr,
+                    "Employee Details".tr,
+                  ),
+                  color: Get.theme.focusColor,
+                  index: Text("3",
+                      style: TextStyle(color: Get.theme.primaryColor)),
+                ),
+                StepWidget(
+                  title: Text(
+                    "Employee Availability".tr,
                   ),
                   color: Get.theme.focusColor,
                   index: Text("3",
