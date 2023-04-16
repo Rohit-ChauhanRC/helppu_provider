@@ -52,7 +52,7 @@ class UserRepository {
 
   Future<User> registerEmployee(User user) {
     _laravelApiClient = Get.find<LaravelApiClient>();
-    return _laravelApiClient.register(user);
+    return _laravelApiClient.registerEmployee(user);
   }
 
   Future<bool> signInWithEmailAndPassword(String email, String password) async {

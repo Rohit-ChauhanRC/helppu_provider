@@ -45,6 +45,7 @@ class MyEmployeeRegistrationController extends GetxController {
 
   void removeUser() async {
     await _box.remove('newUser');
+    currentUser.value = new User();
   }
 
   void register() async {
@@ -54,7 +55,8 @@ class MyEmployeeRegistrationController extends GetxController {
     //  //registerFormKey.currentState.save();
     //  loading.value = true;
     try {
-      currentUser.value = await _userRepository.register(currentUser.value);
+      currentUser.value =
+          await _userRepository.registerEmployee(currentUser.value);
       await _userRepository.signUpWithEmailAndPassword(
           currentUser.value.email, currentUser.value.apiToken);
       loading.value = false;
