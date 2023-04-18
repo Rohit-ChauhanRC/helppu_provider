@@ -92,7 +92,7 @@ class MyEmployeeDetailController extends GetxController {
 
   Future getEmployees() async {
     try {
-      employees.assignAll(await _eProviderRepository.getAllEmployees());
+      employees.assignAll(await _eProviderRepository.getAllUsers());
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }

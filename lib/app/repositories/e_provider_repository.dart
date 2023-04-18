@@ -56,6 +56,10 @@ class EProviderRepository {
     return _laravelApiClient.getAllEmployees();
   }
 
+  Future<List<User>> getAllUsers() {
+    return _laravelApiClient.getAllUser();
+  }
+
   Future<List<Tax>> getTaxes() {
     return _laravelApiClient.getTaxes();
   }

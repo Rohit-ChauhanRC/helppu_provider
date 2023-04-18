@@ -141,8 +141,8 @@ class LaravelApiClient extends GetxService with ApiClient {
     var _queryParameters = {
       'api_token': authService.apiToken,
     };
-    Uri _uri =
-        getApiBaseUri("signup").replace(queryParameters: _queryParameters);
+    Uri _uri = getApiBaseUri("provider-register")
+        .replace(queryParameters: _queryParameters);
 
     var response = await _httpClient.postUri(
       _uri,
@@ -983,6 +983,24 @@ class LaravelApiClient extends GetxService with ApiClient {
       'api_token': authService.apiToken,
     };
     Uri _uri = getApiBaseUri("provider/employees")
+        .replace(queryParameters: _queryParameters);
+
+    var response = await _httpClient.getUri(_uri, options: _optionsNetwork);
+    if (response.data['success'] == true) {
+      return response.data['data']
+          .map<User>((obj) => User.fromJson(obj))
+          .toList();
+    } else {
+      throw new Exception(response.data['message']);
+    }
+  }
+
+  Future<List<User>> getAllUser() async {
+    var _queryParameters = {
+      'only': 'id;name;email',
+      'api_token': authService.apiToken,
+    };
+    Uri _uri = getApiBaseUri("provider/user")
         .replace(queryParameters: _queryParameters);
 
     var response = await _httpClient.getUri(_uri, options: _optionsNetwork);
